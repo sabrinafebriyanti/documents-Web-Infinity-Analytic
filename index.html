@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Infinity Analytics</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Animated Background Elements -->
+    <div class="bg bg1"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+
+    <!-- =========================
+         LOGIN SCREEN
+    ========================= -->
+    <div id="login-screen" class="login-container">
+        <div class="auth-wrapper">
+
+            <!-- ===== LOGIN PANEL ===== -->
+            <div class="auth-panel" id="panel-login">
+                <div class="auth-brand">
+                    <h1 class="logo" style="font-size: 28px;">⚡ Infinity</h1>
+                    <p class="auth-tagline">Selamat datang kembali!</p>
+                </div>
+
+                <div class="auth-form">
+                    <div class="auth-field">
+                        <label class="auth-label">👤 Nama Pengguna</label>
+                        <input id="username-input" type="text" placeholder="Masukkan nama pengguna"
+                            autocomplete="username">
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label">🔒 Kata Sandi</label>
+                        <div class="pass-wrap">
+                            <input id="password-input" type="password" placeholder="Masukkan kata sandi"
+                                autocomplete="current-password">
+                            <button type="button" class="eye-btn" onclick="togglePassword('password-input','eye-icon')">
+                                <span id="eye-icon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="auth-field" style="flex-direction: row; align-items: center; gap: 8px; margin-top: -10px; margin-bottom: 15px;">
+                        <input type="checkbox" id="remember-me" checked style="width: auto;">
+                        <label for="remember-me" class="auth-label" style="margin-bottom: 0; cursor: pointer;">Simpan Info Login</label>
+                    </div>
+                    <p id="login-error" class="auth-error"></p>
+                    <button class="btn-add btn-auth" onclick="login()">Masuk →</button>
+                </div>
+
+                <div style="text-align: center; margin-top: 15px;">
+                    <button onclick="switchToForgot()" class="link-btn" style="font-size: 13px;">Lupa kata sandi?</button>
+                </div>
+
+                <p class="auth-switch">Belum punya akun?
+                    <button onclick="switchToRegister()" class="link-btn">Daftar sekarang</button>
+                </p>
+            </div>
+
+            <!-- ===== REGISTER PANEL ===== -->
+            <div class="auth-panel auth-panel-hidden" id="panel-register">
+                <div class="auth-brand">
+                    <h1 class="logo" style="font-size: 28px;">⚡ Infinity</h1>
+                    <p class="auth-tagline">Buat akun baru Anda</p>
+                </div>
+
+                <div class="auth-form">
+                    <div class="auth-field">
+                        <label class="auth-label">🏷️ Nama Lengkap</label>
+                        <input id="reg-displayname" type="text" placeholder="Masukkan nama lengkap Anda"
+                            autocomplete="name">
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label">👤 Nama Pengguna</label>
+                        <input id="reg-username" type="text" placeholder="Buat nama pengguna unik" autocomplete="off">
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label">🔒 Kata Sandi</label>
+                        <div class="pass-wrap">
+                            <input id="reg-password" type="password" placeholder="Buat kata sandi"
+                                autocomplete="new-password">
+                            <button type="button" class="eye-btn"
+                                onclick="togglePassword('reg-password','eye-icon-reg')">
+                                <span id="eye-icon-reg">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label">🔒 Konfirmasi Kata Sandi</label>
+                        <div class="pass-wrap">
+                            <input id="reg-password2" type="password" placeholder="Ulangi kata sandi"
+                                autocomplete="new-password">
+                            <button type="button" class="eye-btn"
+                                onclick="togglePassword('reg-password2','eye-icon-reg2')">
+                                <span id="eye-icon-reg2">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p id="register-error" class="auth-error"></p>
+                    <button class="btn-add btn-auth" onclick="register()">Daftar →</button>
+                </div>
+
+                <p class="auth-switch">Sudah punya akun?
+                    <button onclick="switchToLogin()" class="link-btn">Masuk di sini</button>
+                </p>
+            </div>
+
+            <!-- ===== FORGOT PASSWORD PANEL ===== -->
+            <div class="auth-panel auth-panel-hidden" id="panel-forgot">
+                <div class="auth-brand">
+                    <h1 class="logo" style="font-size: 28px;">⚡ Infinity</h1>
+                    <p class="auth-tagline">Atur ulang kata sandi Anda</p>
+                </div>
+
+                <div class="auth-form">
+                    <div class="auth-field">
+                        <label class="auth-label">👤 Nama Pengguna</label>
+                        <input id="forgot-username" type="text" placeholder="Masukkan nama pengguna Anda" autocomplete="off">
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label">🔒 Kata Sandi Baru</label>
+                        <div class="pass-wrap">
+                            <input id="forgot-password" type="password" placeholder="Buat kata sandi baru">
+                            <button type="button" class="eye-btn" onclick="togglePassword('forgot-password','eye-icon-forgot')">
+                                <span id="eye-icon-forgot">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p id="forgot-error" class="auth-error"></p>
+                    <button class="btn-add btn-auth" onclick="resetPassword()">Reset Sandi →</button>
+                </div>
+
+                <p class="auth-switch">Ingat kata sandi Anda?
+                    <button onclick="switchToLogin()" class="link-btn">Kembali masuk</button>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         MAIN APPLICATION (HIDDEN BY DEFAULT)
+    ========================= -->
+    <div id="main-app" style="display: none;">
+
+        <!-- Header & Navigation -->
+        <header class="header">
+            <h1 class="logo">⚡ Infinity Analytics</h1>
+
+            <nav class="nav-menu">
+                <button class="nav-btn active" onclick="switchPage('dashboard-page')">Dasbor Utama</button>
+                <button class="nav-btn" onclick="switchPage('history-page')">Riwayat Lengkap</button>
+                <button class="nav-btn" onclick="switchPage('bookkeeping-page')">📒 Pembukuan</button>
+            </nav>
+
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div id="user-greeting"
+                    style="margin-right: 10px; padding: 5px 15px; background: rgba(6, 182, 212, 0.1); border-radius: 20px; border: 1px solid rgba(6, 182, 212, 0.3); font-weight: 600; color: var(--accent-cyan); font-size: 14px; display: none;">
+                    Halo, User!</div>
+                <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="Ganti Tema">
+                    <span class="icon">🌙</span>
+                </button>
+                <button class="theme-toggle" onclick="logout()" title="Keluar (Logout)"
+                    style="color: var(--accent-pink);">
+                    <span class="icon">🚪</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- PAGE 1: DASHBOARD -->
+        <div id="dashboard-page" class="page-section active-page">
+            <div class="container">
+                <!-- LEFT PANEL -->
+                <div class="card left-panel">
+                    <h2 class="title">Input Data</h2>
+                    <p class="subtitle">Tambahkan data penjualan baru di sini.</p>
+
+                    <div class="input-box" style="flex-direction: column; gap: 10px;">
+                        <input id="desc-input" type="text" placeholder="Keterangan (mis: Penjualan Produk A)">
+                        <div style="display: flex; gap: 10px; width: 100%;">
+                            <input id="input" type="number" placeholder="Masukkan nominal penjualan...">
+                            <button id="add-btn" class="btn-add" onclick="add()">➕ Tambah</button>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 25px; margin-bottom: 10px; font-size: 16px; color: var(--text-primary);">
+                        Riwayat Terakhir</h3>
+                    <div class="list" id="recent-list" style="max-height: 220px; overflow-y: auto; padding-right: 5px;">
+                        <!-- Recent items will be rendered here automatically -->
+                    </div>
+                    <div style="text-align: right; margin-top: 10px;">
+                        <button type="button" onclick="document.querySelectorAll('.nav-btn')[1].click()"
+                            style="background: none; border: none; color: var(--accent-cyan); font-size: 13px; cursor: pointer; text-decoration: underline; padding: 0;">Lihat
+                            Semua Riwayat ➔</button>
+                    </div>
+
+                    <button class="btn-reset" style="margin-top: 20px;" onclick="reset()">🧹 Reset Semua Data</button>
+
+                    <!-- Slogan / Hero Text -->
+                    <div class="slogan-box" style="margin-top: auto; padding-top: 60px; text-align: center;">
+                        <h3
+                            style="font-size: 22px; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px;">
+                            Wujudkan Visi Menjadi Aksi</h3>
+                        <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.6;">Pantau performa,
+                            analisis tren, dan raih target penjualan Anda dengan dasbor cerdas kami.</p>
+                        <div style="margin-top: 20px; font-size: 40px; animation: floatBg 3s infinite ease-in-out;">🚀
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT PANEL -->
+                <div class="card right-panel">
+
+                    <!-- Calendar + Calculator Row -->
+                    <div style="display: flex; gap: 12px; margin-bottom: 18px; align-items: stretch;">
+
+                        <!-- Calendar Widget -->
+                        <div class="calendar-widget" style="margin-bottom: 0; flex: 1; min-width: 0;">
+                            <div class="calendar-header">
+                                <button onclick="prevMonth()" class="cal-nav">&lt;</button>
+                                <span id="calendar-month-year" style="font-weight: bold; color: var(--text-primary); font-size: 12px;">Bulan Tahun</span>
+                                <button onclick="nextMonth()" class="cal-nav">&gt;</button>
+                            </div>
+                            <div class="calendar-days">
+                                <div>Sen</div>
+                                <div>Sel</div>
+                                <div>Rab</div>
+                                <div>Kam</div>
+                                <div>Jum</div>
+                                <div>Sab</div>
+                                <div>Min</div>
+                            </div>
+                            <div class="calendar-dates" id="calendar-dates">
+                                <!-- Tanggal akan di-render via JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Mini Calculator -->
+                        <div class="mini-calc">
+                            <div class="calc-display" id="calc-display">0</div>
+                            <div class="calc-grid">
+                                <button class="calc-btn calc-fn" onclick="calcClear()">C</button>
+                                <button class="calc-btn calc-fn" onclick="calcDel()">⌫</button>
+                                <button class="calc-btn calc-fn" onclick="calcPercent()">%</button>
+                                <button class="calc-btn calc-op" onclick="calcOp('/')">÷</button>
+
+                                <button class="calc-btn" onclick="calcNum('7')">7</button>
+                                <button class="calc-btn" onclick="calcNum('8')">8</button>
+                                <button class="calc-btn" onclick="calcNum('9')">9</button>
+                                <button class="calc-btn calc-op" onclick="calcOp('*')">×</button>
+
+                                <button class="calc-btn" onclick="calcNum('4')">4</button>
+                                <button class="calc-btn" onclick="calcNum('5')">5</button>
+                                <button class="calc-btn" onclick="calcNum('6')">6</button>
+                                <button class="calc-btn calc-op" onclick="calcOp('-')">−</button>
+
+                                <button class="calc-btn" onclick="calcNum('1')">1</button>
+                                <button class="calc-btn" onclick="calcNum('2')">2</button>
+                                <button class="calc-btn" onclick="calcNum('3')">3</button>
+                                <button class="calc-btn calc-op" onclick="calcOp('+')">+</button>
+
+                                <button class="calc-btn" onclick="calcNum('0')" style="grid-column: span 2;">0</button>
+                                <button class="calc-btn" onclick="calcDot()">.</button>
+                                <button class="calc-btn calc-eq" onclick="calcEquals()">=</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="stats">
+                        <!-- Target Widget -->
+                        <div class="box" style="grid-column: span 2;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                <span class="box-label">🎯 Target Bulan Ini</span>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span id="target-value" class="value" style="font-size: 16px; margin-top: 0;">Rp
+                                        0</span>
+                                    <button onclick="editTarget()"
+                                        style="background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); font-size: 12px; padding: 4px 10px; border-radius: 6px;">✏️
+                                        Atur</button>
+                                </div>
+                            </div>
+                            <div class="progress-bg"
+                                style="width: 100%; height: 10px; background: var(--input-bg); border-radius: 10px; overflow: hidden; position: relative;">
+                                <div id="target-progress"
+                                    style="height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue)); transition: width 0.5s ease; box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">
+                                </div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--text-muted); font-weight: 600;">
+                                <span id="target-current">Terkumpul: Rp 0</span>
+                                <span id="target-percentage">0%</span>
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <span class="box-label">💰 Total Pendapatan</span>
+                            <div class="value" id="total">Rp 0</div>
+                        </div>
+                        <div class="box">
+                            <span class="box-label">📊 Rata-rata (Mean)</span>
+                            <div class="value" id="avg">Rp 0</div>
+                        </div>
+                        <div class="box">
+                            <span class="box-label">⚖️ Median</span>
+                            <div class="value" id="median">Rp 0</div>
+                        </div>
+                        <div class="box">
+                            <span class="box-label">📌 Modus</span>
+                            <div class="value" id="modus">Rp 0</div>
+                        </div>
+                        <div class="box">
+                            <span class="box-label">🚀 Tertinggi</span>
+                            <div class="value" id="max">Rp 0</div>
+                        </div>
+                        <div class="box">
+                            <span class="box-label">📉 Terendah</span>
+                            <div class="value" id="min">Rp 0</div>
+                        </div>
+                        <div class="box highlight-box">
+                            <span class="box-label">📅 Hari Ini</span>
+                            <div class="value" id="daily">Rp 0</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="chart-container">
+                        <canvas id="chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 2: HISTORY FULL PAGE -->
+        <div id="history-page" class="page-section" style="display: none;">
+            <div class="container" style="grid-template-columns: 1fr; max-width: 900px;">
+                <div class="card">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <h2 class="title" style="margin-bottom: 5px;">Buku Riwayat Lengkap</h2>
+                            <p class="subtitle" style="margin-bottom: 0;">Seluruh riwayat transaksi yang tersimpan di
+                                memori.</p>
+                        </div>
+                        <button class="btn-add" style="width: auto; padding: 8px 15px; font-size: 14px;"
+                            onclick="exportToCSV()">📥 Ekspor ke CSV</button>
+                    </div>
+
+                    <div class="filter-box" style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                        <input type="text" id="search-input" placeholder="Cari keterangan atau nominal..."
+                            onkeyup="render()"
+                            style="flex: 1; padding: 10px 15px; border-radius: 12px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-primary); font-size: 14px;">
+                        <select id="sort-select" onchange="render()"
+                            style="padding: 10px 15px; border-radius: 12px; background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border); font-size: 14px; outline: none; cursor: pointer;">
+                            <option value="newest">Terbaru</option>
+                            <option value="oldest">Terlama</option>
+                            <option value="highest">Tertinggi</option>
+                            <option value="lowest">Terendah</option>
+                        </select>
+                    </div>
+
+                    <div class="list history-list" id="list">
+                        <!-- Data item will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: PEMBUKUAN -->
+        <div id="bookkeeping-page" class="page-section" style="display: none;">
+            <div class="container" style="grid-template-columns: 1fr; max-width: 1000px;">
+
+                <!-- Summary Cards -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                    <div class="box" style="border-color: rgba(16,185,129,0.3); background: rgba(16,185,129,0.05);">
+                        <span class="box-label">💚 Total Pemasukan</span>
+                        <div class="value" id="bk-total-in" style="color: #10b981; font-size: 20px; margin-top: 6px;">Rp 0</div>
+                    </div>
+                    <div class="box" style="border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.05);">
+                        <span class="box-label">❤️ Total Pengeluaran</span>
+                        <div class="value" id="bk-total-out" style="color: #ef4444; font-size: 20px; margin-top: 6px;">Rp 0</div>
+                    </div>
+                    <div class="box" id="bk-balance-box">
+                        <span class="box-label">⚖️ Saldo Bersih</span>
+                        <div class="value" id="bk-balance" style="font-size: 20px; margin-top: 6px;">Rp 0</div>
+                    </div>
+                </div>
+
+                <!-- Weekly Chart -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary);">📊 Grafik 7 Hari Terakhir</h3>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">Perbandingan pemasukan &amp; pengeluaran harian</p>
+                        </div>
+                    </div>
+                    <div style="height: 220px; position: relative;">
+                        <canvas id="bk-chart"></canvas>
+                    </div>
+                </div>
+
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <h2 class="title" style="margin-bottom: 5px;">Catat Transaksi</h2>
+                    <p class="subtitle" style="margin-bottom: 20px;">Tambahkan pemasukan atau pengeluaran baru.</p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 12px; align-items: end; flex-wrap: wrap;">
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Tipe</label>
+                            <select id="bk-type" style="padding: 13px 12px; border-radius: 12px; background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border); font-size: 14px; outline: none;">
+                                <option value="pemasukan">💚 Pemasukan</option>
+                                <option value="pengeluaran">❤️ Pengeluaran</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Kategori</label>
+                            <select id="bk-category" style="padding: 13px 12px; border-radius: 12px; background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border); font-size: 14px; outline: none;">
+                                <option>Penjualan</option>
+                                <option>Modal</option>
+                                <option>Operasional</option>
+                                <option>Gaji</option>
+                                <option>Sewa</option>
+                                <option>Listrik/Air</option>
+                                <option>Bahan Baku</option>
+                                <option>Lainnya</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Keterangan</label>
+                            <input id="bk-desc" type="text" placeholder="Keterangan singkat...">
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">Nominal (Rp)</label>
+                            <input id="bk-nominal" type="number" placeholder="0" min="0">
+                        </div>
+                        <button class="btn-add" style="padding: 13px 20px; white-space: nowrap; height: 50px;" onclick="bkAdd()">➕ Tambah</button>
+                    </div>
+                </div>
+
+                <!-- Transaction List -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <h2 class="title" style="margin-bottom: 3px;">Riwayat Pembukuan</h2>
+                            <p class="subtitle" style="margin-bottom: 0;">Semua transaksi pemasukan &amp; pengeluaran.</p>
+                        </div>
+                        <button class="btn-add" style="width: auto; padding: 8px 15px; font-size: 14px;" onclick="bkExportCSV()">📥 Ekspor CSV</button>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                        <input type="text" id="bk-search" placeholder="Cari keterangan, kategori, atau nominal..."
+                            oninput="bkRender()"
+                            style="flex: 1; min-width: 180px; padding: 10px 15px; border-radius: 12px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-primary); font-size: 14px;">
+                        <select id="bk-filter" onchange="bkRender()"
+                            style="padding: 10px 14px; border-radius: 12px; background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border); font-size: 14px; outline: none; cursor: pointer;">
+                            <option value="semua">Semua</option>
+                            <option value="pemasukan">💚 Pemasukan</option>
+                            <option value="pengeluaran">❤️ Pengeluaran</option>
+                        </select>
+                        <select id="bk-sort" onchange="bkRender()"
+                            style="padding: 10px 14px; border-radius: 12px; background: var(--input-bg); color: var(--text-primary); border: 1px solid var(--input-border); font-size: 14px; outline: none; cursor: pointer;">
+                            <option value="newest">Terbaru</option>
+                            <option value="oldest">Terlama</option>
+                            <option value="highest">Terbesar</option>
+                            <option value="lowest">Terkecil</option>
+                        </select>
+                    </div>
+
+                    <div id="bk-list" class="list history-list"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- External JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>
